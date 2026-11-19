@@ -2,7 +2,7 @@
 -- Task 9: Create Tables
 
 -- 1. Students
-CREATE TABLE students (
+CREATE TABLE Students (
     student_id INT PRIMARY KEY,
     full_name VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
@@ -10,14 +10,14 @@ CREATE TABLE students (
 );
 
 -- 2. Courses
-CREATE TABLE courses (
+CREATE TABLE Courses (
     course_id INT PRIMARY KEY,
     title VARCHAR(50) NOT NULL,
     max_seats INT NOT NULL CHECK (max_seats > 0)
 );
 
 -- 3. Enrollments
-CREATE TABLE enrollments (
+CREATE TABLE Enrollments (
     student_id INT,
     course_id INT,
     enrolled_on DATE DEFAULT CURRENT_DATE,
@@ -64,7 +64,7 @@ SELECT
 FROM Courses
 LEFT JOIN Enrollments
     ON Courses.course_id = Enrollments.course_id
-GROUP BY Courses.title
+GROUP BY Courses.course_id, Courses.title
 ORDER BY
     count_Enrollments DESC,
     Courses.title ASC;
@@ -91,7 +91,7 @@ SELECT
 FROM Courses
 INNER JOIN Enrollments
     ON Courses.course_id = Enrollments.course_id
-GROUP BY Courses.title
+GROUP BY Courses.course_id, Courses.title
 HAVING COUNT(Enrollments.grade) >= 2
 ORDER BY avg_grade DESC;
 
@@ -143,8 +143,8 @@ VALUES (4, 1, 105);
 
 
 --Task 18:
--- COUNT(*) - סופר את כל הרשומות כולל NULL במקום ציון 
--- לכן הרשומה השלישית הייתה משפיעה - הרשומה שכתוב בה NULL
+-- COUNT(*) - סופר את כל הרשומות כולל הרשומה שערכה NULL
+-- לכן הרשומה של הסטודנט ה2 הייתה משפיעה - הרשומה שכתוב בה NULL
 
 
 --Task 19: המפתח הראשי מורכב משתי עמודות כי תלמיד יכול להירשם לכמה קורסים, ובכל קורס יכולים להיות כמה תלמידים. השילוב של student_id ו־course_id מונע מצב שבו אותו תלמיד נרשם פעמיים לאותו קורס.
